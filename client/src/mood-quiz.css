@@ -1,0 +1,124 @@
+.quiz-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.quiz-card {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+.quiz-card h3 {
+  margin-bottom: 0.5rem;
+  color: #2c3e50;
+}
+
+.quiz-card p {
+  margin-bottom: 1rem;
+}
+
+.quiz-link {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: #248e7c;
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.disclaimer {
+  margin-top: 3rem;
+  padding: 1.5rem;
+  background-color: #e6f2f9;
+  border: 1px solid #b3d9f5;
+  border-radius: 8px;
+}
+
+.disclaimer p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #0f3f63;
+}
+
+.quiz-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  margin-top: 2rem;
+}
+
+.quiz-card {
+  background-color: #fefefe;
+  padding: 20px;
+  border-radius: 12px;
+  border-left: 6px solid #a5d6a7; /* default mint green */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, background-color 0.3s;
+}
+
+.quiz-card:nth-child(1) {
+  border-left-color: #b2dfdb; /* teal pastel */
+  background-color: #e0f2f1;
+}
+.quiz-card:nth-child(2) {
+  border-left-color: #f8bbd0; /* pink pastel */
+  background-color: #fce4ec;
+}
+.quiz-card:nth-child(3) {
+  border-left-color: #bbdefb; /* blue pastel */
+  background-color: #e3f2fd;
+}
+.quiz-card:nth-child(4) {
+  border-left-color: #ffe082; /* yellow pastel */
+  background-color: #fff8e1;
+}
+.quiz-card:nth-child(5) {
+  border-left-color: #d1c4e9; /* purple pastel */
+  background-color: #ede7f6;
+}
+.quiz-card:nth-child(6) {
+  border-left-color: #c8e6c9; /* light green pastel */
+  background-color: #f1f8e9;
+}
+
+.quiz-card:hover {
+  transform: translateY(-4px);
+}
+
+.quiz-card h3 {
+  color: #004d40;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+.quiz-card p {
+  color: #2c3e50;
+  margin-bottom: 8px;
+}
+
+
+
+
+.quiz-link {
+  display: inline-block;
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 0.95rem;
+  color: #004d40;
+  text-decoration: underline;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.quiz-link:hover {
+  
+  text-decoration: none;
+}
