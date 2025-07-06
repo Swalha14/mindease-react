@@ -1,0 +1,41 @@
+.articles-list {
+  padding: 40px 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.article-card {
+  display: flex;
+  gap: 20px; /*space between image and text*/
+  background-color: #f0f4f8;
+  margin-bottom: 30px; /*space between each card*/
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.article-card img {
+  width: 200px;
+  height: 150px;
+  object-fit: cover;
+}
+
+.article-content {
+  padding: 20px;
+}
+
+.article-content h3 {
+  margin-top: 0;
+}
+
+.article-content a {
+  display: inline-block;
+  margin-top: 10px;
+  color: #6fbf73;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.article-content a:hover {
+  text-decoration: underline;
+}
