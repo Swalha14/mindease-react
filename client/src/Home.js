@@ -1,11 +1,25 @@
-import React from 'react';
+// src/Home.js
+import React, { useEffect, useState } from 'react';
 import './styles.css';
 
 function Home() {
+  const [userEmail, setUserEmail] = useState(null);
+
+  useEffect(() => {
+    const storedEmail = localStorage.getItem('userEmail');
+    if (storedEmail) {
+      setUserEmail(storedEmail);
+    }
+  }, []);
+
   return (
     <div>
       <section className="intro">
-        <h2>Your Safe Space for Mental Well-being</h2>
+        <h2>
+          {userEmail
+            ? `Welcome back, ${userEmail.split('@')[0]}!`
+            : 'Your Safe Space for Mental Well-being'}
+        </h2>
         <p>
           Explore resources to support your mental health—learn about stress, anxiety, sleep, and more.
           Join a supportive community and take steps toward a calmer you.

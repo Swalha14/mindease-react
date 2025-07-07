@@ -1,10 +1,11 @@
-// src/Login.js
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import Header from './Header';
+import React, { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from './AuthContext';
 import './styles.css';
 
 function Login() {
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -21,38 +22,25 @@ function Login() {
     alert(data.message);
 
     if (data.message === 'Login successful') {
-      // Redirect to dashboard (example path)
-      window.location.href = '/dashboard';
+      login({ email }); // Store user info
+      navigate('/'); // Redirect to home
     }
   };
 
   return (
-    <>
-    
-      <section className="form-section">
-        <h2>Login</h2>
-        <form onSubmit={handleLogin}>
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            required
-          />
+    <section className="form-section">
+      <h2>Login</h2>
+      <form onSubmit={handleLogin}>
+        <label>Email:</label>
+        <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
 
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            required
-          />
+        <label>Password:</label>
+        <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
 
-          <button type="submit" className="btn">Login</button>
-        </form>
-        <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>
-      </section>
-    </>
+        <button type="submit" className="btn">Login</button>
+      </form>
+      <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>
+    </section>
   );
 }
 
