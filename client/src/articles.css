@@ -63,12 +63,12 @@
 }
 
 .favorite-link {
-  color: #0077cc;
+  color: #6fbf73;
   cursor: pointer;
   margin-top: 4px;
-  font-size: 0.95em;
-  text-decoration: underline;
+  font-size: 0.9em;
+  
 }
 .favorite-link:hover {
-  color: #005fa3;
+  color: #6fbf73;
 }
