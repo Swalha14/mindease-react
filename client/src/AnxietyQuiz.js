@@ -1,23 +1,43 @@
-import React, { useState } from 'react';
+// src/pages/AnxietyQuiz.js
+import React, { useState, useContext } from 'react';
 import './quiz.css';
+import { AuthContext } from './AuthContext';
 
 function AnxietyQuiz() {
   const [result, setResult] = useState('');
+  const { user } = useContext(AuthContext); // ✅ Access logged-in user
 
   const handleSubmit = (e) => {
     e.preventDefault();
     let total = 0;
+
     for (let i = 1; i <= 5; i++) {
-      const answer = document.querySelector(`input[name="q${i}"]:checked`);
-      if (answer) total += parseInt(answer.value);
+      const selected = document.querySelector(`input[name="q${i}"]:checked`);
+      if (selected) total += parseInt(selected.value);
     }
 
+    let scoreText = '';
     if (total <= 7) {
-      setResult("You're showing low signs of anxiety. Continue maintaining healthy coping strategies.");
+      scoreText = "You're showing low signs of anxiety. Continue maintaining healthy coping strategies.";
     } else if (total <= 11) {
-      setResult("You may be experiencing moderate anxiety. It might help to monitor your stress levels and self-care habits.");
+      scoreText = "You may be experiencing moderate anxiety. It might help to monitor your stress levels and self-care habits.";
     } else {
-      setResult("You may be experiencing high anxiety. Consider talking to a mental health professional.");
+      scoreText = "You may be experiencing high anxiety. Consider talking to a mental health professional.";
+    }
+
+    setResult(scoreText);
+
+    // ✅ Save result if user is logged in
+    if (user) {
+      const prevResults = JSON.parse(localStorage.getItem('quizResults')) || [];
+      const newResult = {
+        quiz: "Anxiety",
+        scoreText,
+        userId: user.id || user.email,
+        timestamp: Date.now(),
+      };
+
+      localStorage.setItem('quizResults', JSON.stringify([...prevResults, newResult]));
     }
   };
 
@@ -65,13 +85,10 @@ function AnxietyQuiz() {
         <button type="submit" className="quiz-link">Submit</button>
       </form>
 
-      {result && (
-        <div id="result">{result}</div>
-      )}
+      {result && <div id="result">{result}</div>}
 
       <div className="disclaimer">
-        <p>
-          <strong>Note:</strong> This quiz is not a clinical diagnosis. It’s intended to help you reflect on your emotional state.
+        <p><strong>Note:</strong> This quiz is not a clinical diagnosis. It’s intended to help you reflect on your emotional state.
           If you’re feeling persistently anxious, please seek support from a mental health professional.
         </p>
       </div>

@@ -1,7 +1,7 @@
-// src/Dashboard.js
 import React, { useEffect, useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import './styles.css';
+import './articles.css';
 import { AuthContext } from './AuthContext';
 
 function Dashboard() {
@@ -16,25 +16,32 @@ function Dashboard() {
       return;
     }
 
-    const rawResults = localStorage.getItem('quizResults');
-    const rawFavorites = localStorage.getItem('favorites');
-
     try {
+      const rawResults = localStorage.getItem('quizResults');
+      const rawFavorites = localStorage.getItem('favorites');
+
       const storedResults = rawResults && rawResults !== 'undefined' ? JSON.parse(rawResults) : [];
       const storedFavorites = rawFavorites && rawFavorites !== 'undefined' ? JSON.parse(rawFavorites) : [];
 
-      const filteredResults = storedResults.filter(
-        result => result.userId === user.id || result.userId === user.email
-      );
+      const userId = user.id || user.email;
+
+      const filteredResults = storedResults.filter(result => result.userId === userId);
+      const filteredFavorites = storedFavorites.filter(fav => fav.userId === userId);
 
       setQuizResults(filteredResults);
-      setFavorites(storedFavorites);
+      setFavorites(filteredFavorites);
     } catch (error) {
       console.error("Failed to load dashboard data:", error);
       localStorage.clear();
       navigate('/login');
     }
   }, [user, navigate]);
+
+  const removeFavorite = (title) => {
+    const updated = favorites.filter(fav => fav.title !== title || fav.userId !== (user.id || user.email));
+    setFavorites(updated);
+    localStorage.setItem('favorites', JSON.stringify(updated));
+  };
 
   return (
     <main className="container">
@@ -71,14 +78,35 @@ function Dashboard() {
 
       <section className="dashboard-section">
         <h3>Your Favorite Articles</h3>
-        <div className="card-grid">
+        <div className="articles-list">
           {favorites.length === 0 ? (
             <p>You haven't favorited any articles yet.</p>
           ) : (
             favorites.map((article, index) => (
-              <div key={index} className="pastel-card">
-                <h4>{article.title}</h4>
-                <p>{article.summary || 'You liked this article.'}</p>
+              <div key={index} className="article-card">
+                <img
+                  src={
+                    article.image
+                      ? article.image.startsWith('/')
+                        ? article.image
+                        : `/${article.image}`
+                      : '/images/default.jpg'
+                  }
+                  alt={article.title}
+                />
+                <div className="article-content">
+                  <h4>{article.title}</h4>
+                  <p>{article.summary}</p>
+                  <Link to={`/${article.slug}`} state={{ fromArticles: true }}>
+                    Read More
+                  </Link>
+                  <p
+                    className="favorite-link"
+                    onClick={() => removeFavorite(article.title)}
+                  >
+                    ❌ Remove from favorites
+                  </p>
+                </div>
               </div>
             ))
           )}
