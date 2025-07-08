@@ -1,11 +1,19 @@
 // src/Header.js
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from './AuthContext';
 import './styles.css';
+import { FaUserCircle } from 'react-icons/fa';
 
 function Header() {
   const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = (e) => {
+    e.preventDefault(); // Prevent navigation
+    logout();
+    navigate('/login');
+  };
 
   return (
     <header>
@@ -22,14 +30,13 @@ function Header() {
 
         {user ? (
           <>
-            <Link to="/dashboard">Dashboard</Link>
-            <button onClick={logout} className="logout-btn">Log Out</button>
+            <Link to="/dashboard" title="Profile">
+              <FaUserCircle size={20} style={{ verticalAlign: 'middle' }} />
+            </Link>
+            <Link to="/logout" onClick={handleLogout}>Log out</Link>
           </>
         ) : (
-          <>
-            <Link to="/login">Login</Link>
-           
-          </>
+          <Link to="/login">Login</Link>
         )}
       </nav>
     </header>
