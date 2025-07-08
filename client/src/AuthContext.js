@@ -25,8 +25,7 @@ const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     localStorage.removeItem('user');
-    localStorage.removeItem('quizResults'); // optional cleanup
-    localStorage.removeItem('favorites');   // optional cleanup
+    
   };
 
   return (
