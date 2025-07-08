@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import './styles.css';
 import './articles.css';
 import { AuthContext } from './AuthContext';
+import { FaTimes } from 'react-icons/fa'; // React icon for remove
 
 function Dashboard() {
   const { user } = useContext(AuthContext);
@@ -43,6 +44,16 @@ function Dashboard() {
     localStorage.setItem('favorites', JSON.stringify(updated));
   };
 
+  const removeQuizResult = (timestamp) => {
+    const userId = user.id || user.email;
+    const updated = quizResults.filter(result => result.timestamp !== timestamp || result.userId !== userId);
+    setQuizResults(updated);
+
+    const storedAll = JSON.parse(localStorage.getItem('quizResults')) || [];
+    const updatedAll = storedAll.filter(result => result.timestamp !== timestamp || result.userId !== userId);
+    localStorage.setItem('quizResults', JSON.stringify(updatedAll));
+  };
+
   return (
     <main className="container">
       <section className="dashboard-header">
@@ -66,7 +77,19 @@ function Dashboard() {
 
               return (
                 <div key={index} className="pastel-card">
-                  <h4>{result.quiz}</h4>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <h4>{result.quiz}</h4>
+                    <FaTimes
+                      onClick={() => removeQuizResult(result.timestamp)}
+                      title="Remove"
+                      style={{
+                        cursor: 'pointer',
+                        fontSize: '1.2rem',
+                        color: '#00796b',
+                        marginLeft: '10px'
+                      }}
+                    />
+                  </div>
                   <p>{result.scoreText}</p>
                   <small className="date-text">🕒 Taken on: {formattedDate}</small>
                 </div>
