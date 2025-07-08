@@ -1,9 +1,11 @@
 // src/pages/GeneralQuiz.js
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { AuthContext } from './AuthContext'; 
 import './quiz.css';
 
 function GeneralQuiz() {
   const [result, setResult] = useState('');
+  const { user } = useContext(AuthContext); //  Get current logged-in user
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -14,12 +16,29 @@ function GeneralQuiz() {
       if (selected) total += parseInt(selected.value);
     }
 
+    let scoreText = '';
+
     if (total <= 7) {
-      setResult("Your responses suggest good emotional balance. Keep maintaining your mental wellbeing!");
+      scoreText = "Your responses suggest good emotional balance. Keep maintaining your mental wellbeing!";
     } else if (total <= 11) {
-      setResult("You might be experiencing mild emotional stress. Consider checking in with your habits and support system.");
+      scoreText = "You might be experiencing mild emotional stress. Consider checking in with your habits and support system.";
     } else {
-      setResult("Your responses suggest you could benefit from speaking with a mental health professional.");
+      scoreText = "Your responses suggest you could benefit from speaking with a mental health professional.";
+    }
+
+    setResult(scoreText);
+
+    // Save to localStorage under quizResults
+    if (user) {
+      const prevResults = JSON.parse(localStorage.getItem('quizResults')) || [];
+      const newResult = {
+        quiz: "General Mental Health",
+        scoreText,
+        userId: user.id || user.email, // same ID used in Dashboard filter
+        timestamp: Date.now()
+      };
+
+      localStorage.setItem('quizResults', JSON.stringify([...prevResults, newResult]));
     }
   };
 
@@ -29,6 +48,7 @@ function GeneralQuiz() {
       <p>Answer the following questions honestly to get a general sense of your mental wellbeing.</p>
 
       <form onSubmit={handleSubmit}>
+        {/* questions */}
         <div className="quiz-question">
           <p>1. How often do you feel overwhelmed by your responsibilities?</p>
           <label><input type="radio" name="q1" value="3" /> Often</label>
@@ -70,10 +90,7 @@ function GeneralQuiz() {
       {result && <div id="result">{result}</div>}
 
       <div className="disclaimer">
-        <p>
-          <strong>Note:</strong> This quiz is not a clinical diagnosis. It’s intended to help you reflect and understand more about your emotional state.
-          If you’re feeling persistently unwell, please talk to a qualified therapist.
-        </p>
+        <p><strong>Note:</strong> This quiz is not a clinical diagnosis. It’s intended to help you reflect and understand more about your emotional state.</p>
       </div>
     </main>
   );

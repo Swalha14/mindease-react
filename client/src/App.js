@@ -28,6 +28,8 @@ import StressQuiz from './StressQuiz';
 import SleepQuiz from './SleepQuiz';
 import SelfEsteemQuiz from './SelfEsteemQuiz';
 
+import Dashboard from './Dashboard';
+
 
 
 
@@ -48,7 +50,7 @@ function App() {
         <Route path="/mood-quiz" element={<MoodQuiz />} />
 
 
-        {/* ✅ Individual article routes */}
+        {/*  Individual article routes */}
         <Route path="/mental-health-article" element={<MentalHealthArticle />} />
         <Route path="/stress-article" element={<StressArticle />} />
         <Route path="/sleep-article" element={<SleepArticle />} />
@@ -64,6 +66,8 @@ function App() {
         <Route path="/stress-quiz" element={<StressQuiz />} />
         <Route path="/sleep-quiz" element={<SleepQuiz />} />
         <Route path="/selfesteem-quiz" element={<SelfEsteemQuiz />} />
+
+        <Route path="/dashboard" element={<Dashboard />} />
         
 
       </Routes>

@@ -1,11 +1,20 @@
 import React, { createContext, useState, useEffect } from 'react';
 
+// Create the context
 export const AuthContext = createContext();
 
+// AuthProvider component
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
     const saved = localStorage.getItem('user');
-    return saved ? JSON.parse(saved) : null;
+    if (!saved || saved === 'undefined') return null;
+
+    try {
+      return JSON.parse(saved);
+    } catch (error) {
+      console.error('Error parsing user from localStorage:', error);
+      return null;
+    }
   });
 
   const login = (userData) => {
@@ -16,6 +25,8 @@ const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     localStorage.removeItem('user');
+    localStorage.removeItem('quizResults'); // optional cleanup
+    localStorage.removeItem('favorites');   // optional cleanup
   };
 
   return (

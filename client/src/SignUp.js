@@ -1,11 +1,23 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+// src/SignUp.js
+import React, { useState, useEffect, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './styles.css';
+import { AuthContext } from './AuthContext';
 
 function SignUp() {
+  const { login } = useContext(AuthContext);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+  // Redirect if already logged in
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser && storedUser !== 'undefined') {
+      navigate('/dashboard');
+    }
+  }, [navigate]);
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -18,10 +30,16 @@ function SignUp() {
       });
 
       const data = await res.json();
-      alert(data.message);
+
+      if (data.user) {
+        login(data.user); // Save to context
+        navigate('/dashboard');
+      } else {
+        alert(data.message || 'Signup failed');
+      }
     } catch (error) {
-      alert('Something went wrong. Please try again.');
       console.error('Signup error:', error);
+      alert('Something went wrong. Please try again.');
     }
   };
 
@@ -30,16 +48,32 @@ function SignUp() {
       <h2>Sign Up</h2>
       <form onSubmit={handleSignup}>
         <label>Name:</label>
-        <input type="text" value={name} onChange={e => setName(e.target.value)} required />
-        
+        <input
+          type="text"
+          value={name}
+          onChange={e => setName(e.target.value)}
+          required
+        />
+
         <label>Email:</label>
-        <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
-        
+        <input
+          type="email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          required
+        />
+
         <label>Password:</label>
-        <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
-        
+        <input
+          type="password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          required
+        />
+
         <button className="btn" type="submit">Create Account</button>
       </form>
+
       <p>Already have an account? <Link to="/login">Login</Link></p>
     </section>
   );

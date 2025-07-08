@@ -1,24 +1,11 @@
 // src/Header.js
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { AuthContext } from './AuthContext';
 import './styles.css';
 
 function Header() {
-  const [userEmail, setUserEmail] = useState(null);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const storedEmail = localStorage.getItem('userEmail');
-    if (storedEmail) {
-      setUserEmail(storedEmail);
-    }
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem('userEmail');
-    setUserEmail(null);
-    navigate('/');
-  };
+  const { user, logout } = useContext(AuthContext);
 
   return (
     <header>
@@ -32,13 +19,17 @@ function Header() {
         <Link to="/therapists">Therapists</Link>
         <Link to="/mood-quiz">Quiz</Link>
         <Link to="/breathing">Breathing Exercise</Link>
-        {userEmail ? (
+
+        {user ? (
           <>
-            <span className="user-label">Hi, {userEmail.split('@')[0]}</span>
-            <button className="logout-btn" onClick={handleLogout}>Logout</button>
+            <Link to="/dashboard">Dashboard</Link>
+            <button onClick={logout} className="logout-btn">Log Out</button>
           </>
         ) : (
-          <Link to="/login">Login</Link>
+          <>
+            <Link to="/login">Login</Link>
+           
+          </>
         )}
       </nav>
     </header>

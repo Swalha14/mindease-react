@@ -12,9 +12,9 @@ app.use(express.json());
 // MySQL connection
 const db = mysql.createConnection({
   host: 'localhost',
-  user: 'root',       // XAMPP default
-  password: '',       // empty if no password set
-  database: 'mindease'    // make sure you created this
+  user: 'root',
+  password: '',
+  database: 'mindease'
 });
 
 db.connect((err) => {
@@ -46,13 +46,18 @@ app.post('/signup', (req, res) => {
       [name, email, password],
       (err, result) => {
         if (err) return res.status(500).json({ message: 'Signup failed' });
-        res.json({ message: 'Signup successful' });
+
+        const newUser = {
+          id: result.insertId,
+          name,
+          email
+        };
+        res.json({ message: 'Signup successful', user: newUser });
       }
     );
   });
 });
-
-// Login route
+// Login route (update this in index.js)
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
   console.log('🔐 Login request:', req.body);
@@ -64,7 +69,8 @@ app.post('/login', (req, res) => {
       if (err) return res.status(500).json({ message: 'Server error' });
 
       if (results.length > 0) {
-        res.json({ message: 'Login successful' });
+        const user = results[0]; // ✅ Send user info back
+        res.json({ message: 'Login successful', user });
       } else {
         res.json({ message: 'Invalid credentials' });
       }
@@ -72,7 +78,7 @@ app.post('/login', (req, res) => {
   );
 });
 
-// Start the server
+// Start server
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
