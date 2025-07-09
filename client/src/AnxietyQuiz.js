@@ -1,11 +1,11 @@
-// src/pages/AnxietyQuiz.js
+
 import React, { useState, useContext } from 'react';
 import './quiz.css';
 import { AuthContext } from './AuthContext';
 
 function AnxietyQuiz() {
   const [result, setResult] = useState('');
-  const { user } = useContext(AuthContext); // ✅ Access logged-in user
+  const { user } = useContext(AuthContext); //  Access logged-in user
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -27,7 +27,7 @@ function AnxietyQuiz() {
 
     setResult(scoreText);
 
-    // ✅ Save result if user is logged in
+    // Save result if user is logged in
     if (user) {
       const prevResults = JSON.parse(localStorage.getItem('quizResults')) || [];
       const newResult = {

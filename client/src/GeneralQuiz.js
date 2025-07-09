@@ -1,4 +1,4 @@
-// src/pages/GeneralQuiz.js
+
 import React, { useState, useContext } from 'react';
 import { AuthContext } from './AuthContext'; 
 import './quiz.css';

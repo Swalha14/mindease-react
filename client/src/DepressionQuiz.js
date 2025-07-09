@@ -1,11 +1,11 @@
-// src/pages/DepressionQuiz.js
+
 import React, { useState, useContext } from 'react';
 import './quiz.css';
 import { AuthContext } from './AuthContext';
 
 function DepressionQuiz() {
   const [result, setResult] = useState('');
-  const { user } = useContext(AuthContext); // ✅ Access logged-in user
+  const { user } = useContext(AuthContext); //Access logged-in user
 
   const handleSubmit = (e) => {
     e.preventDefault();

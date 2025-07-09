@@ -57,7 +57,7 @@ app.post('/signup', (req, res) => {
     );
   });
 });
-// Login route (update this in index.js)
+// Login route
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
   console.log('🔐 Login request:', req.body);
@@ -69,7 +69,7 @@ app.post('/login', (req, res) => {
       if (err) return res.status(500).json({ message: 'Server error' });
 
       if (results.length > 0) {
-        const user = results[0]; // ✅ Send user info back
+        const user = results[0]; //  Send user info back
         res.json({ message: 'Login successful', user });
       } else {
         res.json({ message: 'Invalid credentials' });
